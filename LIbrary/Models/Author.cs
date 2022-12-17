@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace LIbrary.Models
 {
-    public class Book
+    public class Author
     {
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
-        public string ISBN { get; set; }
-        public Author Author { get; set; }
+        public string FullName { get; set; }
+        public string ShortName { get; set; }
     }
 }
