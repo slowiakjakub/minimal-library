@@ -13,7 +13,6 @@ namespace LIbrary.Controllers
         private readonly ApplicationDbContext _db;
         [BindProperty]
         public Book Book { get; set; }
-
         public BooksController(ApplicationDbContext db)
         {
             _db = db;
@@ -66,7 +65,8 @@ namespace LIbrary.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Json(new { data = await _db.Books.ToListAsync() });
+            var data = await _db.Books.ToListAsync();
+            return Json(new { data });
         }
 
         [HttpDelete]
@@ -75,7 +75,7 @@ namespace LIbrary.Controllers
             var bookFromDb = _db.Books.FirstOrDefault(u => u.Id == id);
             if (bookFromDb == null) return Json(new { success = false, message = "Error while deleting" });
             _db.Books.Remove(bookFromDb);
-            _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
             return Json(new { success = true, message = "Delete successful" });
         }
