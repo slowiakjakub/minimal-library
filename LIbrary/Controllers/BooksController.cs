@@ -14,7 +14,7 @@ namespace LIbrary.Controllers
         [BindProperty]
         public Book Book { get; set; }
         public BooksController(ApplicationDbContext db)
-        {
+        { 
             _db = db;
         }
         public IActionResult Index()

@@ -13,5 +13,10 @@ namespace LIbrary.Models
         [Required]
         public string FullName { get; set; }
         public string ShortName { get; set; }
+
+        public override string ToString()
+        {
+            return FullName;
+        }
     }
 }
