@@ -1,5 +1,6 @@
 ﻿using LIbrary.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,11 +26,12 @@ namespace LIbrary.Controllers
         public IActionResult Upsert(int? id)
         {
             Book = new Book();
+            var authors = _db.Authors.ToList();
+            ViewBag.Authors = new SelectList(authors, "Id", "FullName");
             if (id == null)
             {
                 //create
                 return View(Book);
-
             }
             //update
             Book = _db.Books.FirstOrDefault(u => u.Id == id);
@@ -46,6 +48,7 @@ namespace LIbrary.Controllers
         {
             if(ModelState.IsValid)
             {
+                Book.Author = (Author)_db.Authors.Where(x => x.Id == Book.AuthorId).FirstOrDefault();
                 if(Book.Id==0)
                 {
                     //create
@@ -65,6 +68,10 @@ namespace LIbrary.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            foreach (var book in _db.Books)
+            {
+                book.Author = (Author)_db.Authors.Where(x => x.Id == book.AuthorId).FirstOrDefault();
+            }
             var data = await _db.Books.ToListAsync();
             return Json(new { data });
         }

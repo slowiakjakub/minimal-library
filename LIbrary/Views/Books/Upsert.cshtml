@@ -25,7 +25,7 @@
                 <label asp-for="Author.Id" class="control-label">Author</label>
             </div>
             <div class="col-6">
-                <input asp-for="Author.Id" class="form-control" />
+                @Html.DropDownList("AuthorId", (SelectList)ViewBag.Authors, "Choose Author")
                 </select>
             </div>
         </div>
